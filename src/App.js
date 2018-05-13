@@ -1,26 +1,54 @@
 import React, { Component } from 'react';
 import Login from './components/Login';
+import Index from './components/Index';
+import Navs from './components/Navs.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
 import {
     BrowserRouter as Router,
-    Route,
-    Link,
-    Switch,
-    Redirect
+    Route
 } from 'react-router-dom';
-import Navs from './components/Navs.js';
+
 
 import 'bootstrap/dist/css/bootstrap.css';
+
+// react i18n
+import {IntlProvider} from 'react-intl';
+import zh_CN from './locales/zh-CN.json';
+
+import cloud from "./services/cloud.js";
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('[App] currentUser: ',cloud.currentUser());
+    this.state = {
+      isAuthenticated: cloud.currentUser() ? true : false
+    }
+  }
+
+  logout = event => {
+    event.preventDefault();
+    cloud.logout().then(() => {
+      this.setState({isAuthenticated: false});
+    });
+  }
+
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navs/>
-          <div className="container">
-            <Route path="/login" component={Login} />
+      <IntlProvider
+      locale='en'
+      messages={zh_CN}>
+        <Router>
+          <div className="App">
+            <Navs isAuthenticated={this.state.isAuthenticated} logout={this.logout}/>
+            <div className="container">
+              <Route path="/login" component={Login} />
+              <ProtectedRoute path="/index" component={Index} />
+              <ProtectedRoute path="/register" component={Index} />
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </IntlProvider>
     );
   }
 }

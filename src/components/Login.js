@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import {FormattedMessage} from "react-intl";
+import {Redirect} from 'react-router-dom';
 import cloud from "../services/cloud.js";
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    console.log('[Login] currentUser: ', cloud.currentUser());
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      redirectToIndex: cloud.currentUser() ? true : false
     };
   }
 
@@ -23,21 +27,20 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
     cloud.login(this.state.email, this.state.password).then(user=>{
-      this.setState({
-        email: 'Success',
-        password: 'asd'
-      });
+      console.log('[Login] parse logged: ', cloud.currentUser());
+      this.setState({redirectToIndex: true});
     })
   }
 
   render() {
+    if(this.state.redirectToIndex === true)
+      return <Redirect to="/index" />
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="email" bsSize="large">
-            <ControlLabel>Email</ControlLabel>
+            <ControlLabel><FormattedMessage id="login.username"/></ControlLabel>
             <FormControl
               autoFocus
               value={this.state.email}
@@ -46,7 +49,7 @@ class Login extends Component {
           </FormGroup>
 
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
+            <ControlLabel><FormattedMessage id="login.password"/></ControlLabel>
             <FormControl
               value={this.state.password}
               onChange={this.handleChange}
@@ -59,7 +62,7 @@ class Login extends Component {
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit">
-            Login
+            <FormattedMessage id="login"/>
           </Button>
         </form>
       </div>

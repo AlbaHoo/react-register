@@ -1,0 +1,9 @@
+{
+  "title": "晴雨表",
+  "menu1": "主页",
+  "menu2": "健身",
+  "login": "登录",
+  "logout": " 退出",
+  "login.username": "用户名",
+  "login.password": "密码"
+}

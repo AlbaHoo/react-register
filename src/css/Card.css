@@ -1,0 +1,15 @@
+.card {
+  position: relative;
+  cursor: pointer;
+}
+
+.card .img img {
+  width: 100%;
+}
+
+.card .text {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  margin-left: -35px;
+}

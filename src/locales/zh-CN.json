@@ -5,5 +5,8 @@
   "login": "登录",
   "logout": " 退出",
   "login.username": "用户名",
-  "login.password": "密码"
+  "login.password": "密码",
+  "card1": "健身房打卡",
+  "register": "打卡",
+  "registered": "今日已经打卡"
 }

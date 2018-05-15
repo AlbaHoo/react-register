@@ -6,7 +6,7 @@ import '../css/Card.css'
 class Card extends Component {
   render() {
     return (
-      <a href='/register'>
+      <a href='#/register'>
         <div className="card">
           <div className='img'>
             <img src={this.props.src}/>

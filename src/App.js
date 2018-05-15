@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Route
 } from 'react-router-dom';
 

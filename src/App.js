@@ -11,6 +11,7 @@ import {
 
 
 import 'bootstrap/dist/css/bootstrap.css';
+import './App.css';
 
 // react i18n
 import {IntlProvider} from 'react-intl';
@@ -42,7 +43,7 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navs isAuthenticated={this.state.isAuthenticated} logout={this.logout}/>
-            <div className="container">
+            <div>
               <Route path="/login" component={Login} />
               <ProtectedRoute path="/index" component={Index} />
               <ProtectedRoute path="/register" component={Register} />

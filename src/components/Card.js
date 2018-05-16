@@ -6,16 +6,18 @@ import '../css/Card.css'
 class Card extends Component {
   render() {
     return (
-      <a href='#/register'>
-        <div className="card">
-          <div className='img'>
-            <img src={this.props.src}/>
+      <div className="btn-container">
+        <a href='#/register'>
+          <div className="card">
+            <div>
+              <span data-icon="2" className="icon"></span>
+            </div>
+            <div className="text">
+              <FormattedMessage id='card1'/>
+            </div>
           </div>
-          <div className="text">
-            <FormattedMessage id='card1'/>
-          </div>
-        </div>
-      </a>
+        </a>
+      </div>
     );
   }
 }

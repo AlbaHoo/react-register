@@ -11,6 +11,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      message: "",
       redirectToIndex: cloud.currentUser() ? true : false
     };
   }
@@ -30,6 +31,8 @@ class Login extends Component {
     cloud.login(this.state.email, this.state.password).then(user=>{
       console.log('[Login] parse logged: ', cloud.currentUser());
       this.setState({redirectToIndex: true});
+    }).catch(e => {
+      this.setState({message: e.message});
     })
   }
 
@@ -39,6 +42,7 @@ class Login extends Component {
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
+          <p>{this.state.message ? '用户名或者密码错误' : ''}</p>
           <FormGroup controlId="email" bsSize="large">
             <ControlLabel><FormattedMessage id="login.username"/></ControlLabel>
             <FormControl

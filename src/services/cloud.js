@@ -14,6 +14,22 @@ function todayRegistered(user) {
   query.equalTo('user', user);
   return query.count();
 }
+function generalCreate(table, json) {
+  return new Promise((resolve, reject) => {
+    var ParseTable = Parse.Object.extend(table);
+    var pt = new ParseTable();
+    Object.keys(json).forEach((k)=> {
+      pt.set(k, json[k]);
+    });
+    pt.save(null, {
+      success: object => {
+        console.log('[cloud] create: ', object)
+        resolve(object);
+      },
+      error: (err, obj) => reject(err)
+    });
+  });
+}
 
 module.exports = {
   parse: Parse,
@@ -36,25 +52,34 @@ module.exports = {
     });
   },
 
-  register: function(user){
+  isRegistered: function(user){
     return new Promise((resolve, reject) => {
-      todayRegistered(user).then(count => {
-        console.log(count);
-        if(count > 0)
-          resolve({exists: count});
-        else {
-          var Register = Parse.Object.extend("Register");
-          var register = new Register();
-          register.set('user', user);
-          register.save(null, {
-            success: object => {
-              console.log('[cloud] register: ', object)
-              resolve(object);
-            },
-            error: (err, obj) => reject(err)
-          });
-        }
-      })
+      todayRegistered(user).then(count => resolve(count > 0));
     });
   },
+
+  register: function(user){
+    return new Promise((resolve, reject) => {
+      var Register = Parse.Object.extend("Register");
+      var register = new Register();
+      register.set('user', user);
+      register.save(null, {
+        success: object => {
+          console.log('[cloud] register: ', object)
+          resolve(object);
+        },
+        error: (err, obj) => reject(err)
+      });
+    });
+  },
+
+  uploadFile(name, file){
+    var user = Parse.User.current();
+    if(user){
+      var parseFile = new Parse.File(file.name, file);
+      return generalCreate('Files', {name: name, file: parseFile, user: user});
+    }
+    else
+      return Promise.reject('Not login');
+  }
 };

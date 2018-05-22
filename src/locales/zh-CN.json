@@ -3,10 +3,17 @@
   "menu1": "主页",
   "menu2": "健身",
   "login": "登录",
+  "logging": "登录中...",
   "logout": " 退出",
   "login.username": "用户名",
   "login.password": "密码",
-  "card1": "健身房打卡",
-  "register": "打卡",
-  "registered": "今日已经打卡"
+  "registering": "正在打卡...",
+  "registered": "今日已经健身打卡",
+  "unregistered": "今天未打卡",
+  "file-index": "管理文件",
+  "file-upload": "上传文件",
+  "upload.name": "文件备注",
+  "upload.file": "选择文件",
+  "uploading": "上传中...",
+  "upload": "上传"
 }

@@ -12,6 +12,7 @@ class Login extends Component {
       email: "",
       password: "",
       message: "",
+      onFly: false,
       redirectToIndex: cloud.currentUser() ? true : false
     };
   }
@@ -28,19 +29,20 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    this.setState({onFly: true});
     cloud.login(this.state.email, this.state.password).then(user=>{
       console.log('[Login] parse logged: ', cloud.currentUser());
       this.setState({redirectToIndex: true});
     }).catch(e => {
-      this.setState({message: e.message});
-    })
+      this.setState({message: e.message, onFly: false});
+    });
   }
 
   render() {
     if(this.state.redirectToIndex === true)
       return <Redirect to="/index" />
     return (
-      <div className="Login">
+      <div className="Login container">
         <form onSubmit={this.handleSubmit}>
           <p>{this.state.message ? '用户名或者密码错误' : ''}</p>
           <FormGroup controlId="email" bsSize="large">
@@ -66,7 +68,7 @@ class Login extends Component {
             bsSize="large"
             disabled={!this.validateForm()}
             type="submit">
-            <FormattedMessage id="login"/>
+            <FormattedMessage id={this.state.onFly ? "logging" : "login" }/>
           </Button>
         </form>
       </div>

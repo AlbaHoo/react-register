@@ -4,11 +4,24 @@
 .card {
   cursor: pointer;
   max-width: 400px;
-  height: 50px;
   margin: auto;
   border: 3px solid;
   border-radius: 25px;
-  padding-left: 70px;
+  padding: 5px 20px;;
+}
+
+.card:hover .icon:before{
+  display: inline-block;
+  animation: blinblin infinite 1s linear;
+}
+
+.card.disabled {
+  opacity: 0.5;
+}
+
+@keyframes blinblin {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .card div {
@@ -16,10 +29,11 @@
 }
 .card .icon {
   font-size: 18px;
-  padding-right: 15px;
 }
 .card .text {
+  padding-left: 15px;
   line-height: 45px;
   font-size: 20px;
   text-align: left;
 }
+

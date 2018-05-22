@@ -11,7 +11,7 @@ class Navs extends Component {
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#"><FormattedMessage id="title"/></a>
+            <a href="#/"><FormattedMessage id="title"/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -19,9 +19,6 @@ class Navs extends Component {
           <Nav>
             <NavItem eventKey={1} href="#/index">
               <FormattedMessage id="menu1"/>
-            </NavItem>
-            <NavItem eventKey={2} href="#/register">
-              <FormattedMessage id="menu2"/>
             </NavItem>
           </Nav>
           <Nav pullRight>

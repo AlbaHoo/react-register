@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Login from './components/Login';
 import Index from './components/Index';
-import Register from './components/Register';
+import UploadFile from './components/UploadFile';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import {
@@ -43,10 +43,10 @@ class App extends Component {
         <Router>
           <div className="App">
             <Navs isAuthenticated={this.state.isAuthenticated} logout={this.logout}/>
-            <div>
+            <div className="page-container">
               <Route path="/login" component={Login} />
               <ProtectedRoute path="/index" component={Index} />
-              <ProtectedRoute path="/register" component={Register} />
+              <ProtectedRoute path="/upload" component={UploadFile} />
             </div>
           </div>
         </Router>

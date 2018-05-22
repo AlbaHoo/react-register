@@ -1,25 +1,24 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import { Link } from "react-router";
 import '../css/Card.css'
 
-class Card extends Component {
+class MenuLink extends Component {
   render() {
     return (
       <div className="btn-container">
-        <a href='#/register'>
-          <div className="card">
+        <div className="card">
+          <a href={this.props.url}>
             <div>
-              <span data-icon="2" className="icon"></span>
+              <span data-icon={this.props.icon} className="icon"></span>
             </div>
             <div className="text">
-              <FormattedMessage id='card1'/>
+              <FormattedMessage id={this.props.label_id}/>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     );
   }
 }
 
-export default Card;
+export default MenuLink;

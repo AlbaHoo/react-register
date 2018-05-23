@@ -9,7 +9,8 @@ class FileList extends Component {
     super(props);
     this.state = {
       onFly: false,
-      list: []
+      list: [],
+      filtered:[]
     };
     this.refreshList();
   }
@@ -36,10 +37,24 @@ class FileList extends Component {
     cloud.destroyObject('Files', id).then(() => this.refreshList());
   }
 
+  handleSearch = event => {
+    event.preventDefault();
+    var str = event.target.value;
+    this.setState({filtered: this.state.list.filter(e => e[0].toLowerCase().indexOf(str) > -1)})
+  }
+
   render() {
+    var list = this.state.filtered.length > 0 ? this.state.filtered : this.state.list;
     return (
       <div className="container">
-        <table class="table">
+
+        <div className="input-group input-group-md">
+          <span className="input-group-addon" id="sizing-addon1">搜索🔍</span>
+          <input type="text" className="form-control" placeholder="搜索文件名字" onChange={this.handleSearch}/>
+        </div>
+        <br/>
+
+        <table className="table">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -50,9 +65,9 @@ class FileList extends Component {
           </thead>
           <tbody>
             {
-              this.state.list.map((object, i) => {
+              list.map((object, i) => {
                 return  (
-                  <tr>
+                  <tr key={i}>
                     <th scope="row">{i+1}</th>
                     <td>
                       <a href={object[1]}>

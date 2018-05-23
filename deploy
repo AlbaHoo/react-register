@@ -1,0 +1,4 @@
+echo 'Start depoly build to ali cloud /srv/www/react_app'
+
+scp -r ./build/* root@47.74.183.6:/srv/www/react_app
+

@@ -5,19 +5,28 @@ Parse.serverURL = 'https://parse.cheeger.com/myapp';
 
 var moment = require('moment');
 
+function parseQuery(table){
+  return new Parse.Query(Parse.Object.extend(table));
+}
+
+function parseObject(table){
+  var ParseTable = Parse.Object.extend(table);
+  return new ParseTable();
+}
+
 function todayRegistered(user) {
   var start = moment().startOf('day').utc().toDate();
   var end = moment().endOf('day').utc().toDate();
-  var query = new Parse.Query(Parse.Object.extend("Register"));
+  var query = parseQuery('Register');
   query.greaterThanOrEqualTo('createdAt', start);
   query.lessThanOrEqualTo('createdAt', end);
   query.equalTo('user', user);
   return query.count();
 }
+
 function generalCreate(table, json) {
   return new Promise((resolve, reject) => {
-    var ParseTable = Parse.Object.extend(table);
-    var pt = new ParseTable();
+    var pt = parseObject(table);
     Object.keys(json).forEach((k)=> {
       pt.set(k, json[k]);
     });
@@ -60,8 +69,7 @@ module.exports = {
 
   register: function(user){
     return new Promise((resolve, reject) => {
-      var Register = Parse.Object.extend("Register");
-      var register = new Register();
+      var register = parseObject("Register");
       register.set('user', user);
       register.save(null, {
         success: object => {
@@ -86,12 +94,17 @@ module.exports = {
   getFileList() {
     var user = Parse.User.current();
     if(user){
-      var query = new Parse.Query(Parse.Object.extend("Files"));
+      var query = parseQuery("Files");
       query.equalTo('user', user);
       return query.find();
     }
     else
       return Promise.reject('Not login');
+  },
 
+  destroyObject(table, id) {
+    var obj = new Parse.Object(table);
+    obj.id = id;
+    return obj.destroy();
   }
 };

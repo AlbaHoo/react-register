@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import cloud from "../services/cloud.js";
+import MenuLink from './MenuLink.js';
 var moment = require('moment');
 
 class FileList extends Component {
@@ -20,7 +21,8 @@ class FileList extends Component {
         formatted_list.push([
           object.get('name'),
           object.get('file')._url,
-          moment(object.get('createdAt')).format("YY-MM-DD HH:mm")
+          moment(object.get('createdAt')).format("YY-MM-DD HH:mm"),
+          object.id
         ])
       });
       this.setState({
@@ -30,24 +32,45 @@ class FileList extends Component {
     });
   }
 
+  handleDelete = id => {
+    cloud.destroyObject('Files', id).then(() => this.refreshList());
+  }
+
   render() {
     return (
       <div className="container">
-        <div className="list-group">
-          {
-            this.state.list.map((object, i) => {
-              return  (
-                <a href={object[1]} class="list-group-item list-group-item-action">
-                  {object[0]}
-                  <span class="badge badge-primary badge-pill">{object[2]}</span>
-                </a>
-              )
-            })
-          }
-        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col"><FormattedMessage id="file.name"/></th>
+              <th scope="col"><FormattedMessage id="file.created_at"/></th>
+              <th scope="col"><FormattedMessage id="file.actions"/></th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.state.list.map((object, i) => {
+                return  (
+                  <tr>
+                    <th scope="row">{i+1}</th>
+                    <td>
+                      <a href={object[1]}>
+                        {object[0]}
+                      </a>
+                    </td>
+                    <td>{object[2]}</td>
+                    <td><a className="btn btn-danger" onClick={() => this.handleDelete(object[3])}><FormattedMessage id="actions.delete"/></a></td>
+                  </tr>
+                )
+              })
+            }
+
+          </tbody>
+        </table>
+        <MenuLink icon="U" label_id='file-upload' url='#/upload' />
       </div>
     );
   }
 }
-
 export default FileList;

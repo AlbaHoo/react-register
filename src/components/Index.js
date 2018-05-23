@@ -16,7 +16,7 @@ class Index extends Component {
 
   checkingRegister = () => {
     cloud.isRegistered(cloud.currentUser()).then(isRegistered=>{
-      console.log('[Index] check if registered today: ');
+      console.log('[Index] check if registered today: ', isRegistered);
       this.setState({
         onFly: false,
         registered: isRegistered
@@ -46,7 +46,7 @@ class Index extends Component {
       <div className="menu-list">
         <MenuButton icon="Z" label_id={label_id} action = {this.state.registered ? null : this.handleRegister}/>
         <MenuLink icon="p" label_id='file-index' url='#/files' />
-        <MenuLink icon="p" label_id='file-upload' url='#/upload' />
+        <MenuLink icon="U" label_id='file-upload' url='#/upload' />
       </div>
     );
   }

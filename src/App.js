@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './components/Login';
 import Index from './components/Index';
 import UploadFile from './components/UploadFile';
+import FileList from './components/FileList';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import {
@@ -47,6 +48,7 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <ProtectedRoute path="/index" component={Index} />
               <ProtectedRoute path="/upload" component={UploadFile} />
+              <ProtectedRoute path="/files" component={FileList} />
             </div>
           </div>
         </Router>

@@ -81,5 +81,17 @@ module.exports = {
     }
     else
       return Promise.reject('Not login');
+  },
+
+  getFileList() {
+    var user = Parse.User.current();
+    if(user){
+      var query = new Parse.Query(Parse.Object.extend("Files"));
+      query.equalTo('user', user);
+      return query.find();
+    }
+    else
+      return Promise.reject('Not login');
+
   }
 };

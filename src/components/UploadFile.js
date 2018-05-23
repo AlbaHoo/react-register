@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import {FormattedMessage} from "react-intl";
+import {Redirect} from 'react-router-dom';
 import cloud from "../services/cloud.js";
 
 class UploadFile extends Component {
@@ -10,7 +11,8 @@ class UploadFile extends Component {
       name: "",
       file: "",
       onFly: false,
-      message: ""
+      message: "",
+      redirect: false
     };
   }
 
@@ -33,7 +35,7 @@ class UploadFile extends Component {
     console.log(this.state.file);
     cloud.uploadFile(this.state.name, this.state.file).then( parseObject =>{
       console.log('[UploadFile] file uploaded: ', parseObject);
-      this.setState({onFly: false})
+      this.setState({onFly: false, redirect: true})
     }).catch(e => {
       this.setState({message: e.message, onFly: false});
     });
@@ -41,6 +43,8 @@ class UploadFile extends Component {
   }
 
   render() {
+    if(this.state.redirect === true)
+      return <Redirect to="/files" />
     return (
       <div className="UploadFile container">
         <form onSubmit={this.handleSubmit}>

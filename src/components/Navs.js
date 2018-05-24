@@ -11,7 +11,7 @@ class Navs extends Component {
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#/"><FormattedMessage id="title"/></a>
+            <a href="#/index"><FormattedMessage id="title"/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>

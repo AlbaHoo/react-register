@@ -25,7 +25,7 @@ class EntryList extends Component {
       list.map((object, i) => {
         var positive = object.get('isCredit');
         var number = object.get('number');
-        formatted_list.push([
+        return formatted_list.push([
           moment(object.get('issuedAt')).format("YYYY-MM-DD"),
           positive ? number : '',
           positive ? '' : number,
@@ -40,6 +40,7 @@ class EntryList extends Component {
   }
 
   handleDelete = id => {
+    if(window.confirm('确定？'))
     cloud.destroyObject('Entries', id).then(() => this.refreshList());
   }
 
@@ -65,7 +66,7 @@ class EntryList extends Component {
       <div className="container">
 
         <div className="input-group input-group-md">
-          <span className="input-group-addon" id="sizing-addon1">搜索🔍</span>
+          <span className="input-group-addon" id="sizing-addon1">搜索<span role="img" aria-label="search">🔍</span></span>
           <input type="text" className="form-control" placeholder="搜索文件名字" onChange={this.handleSearch}/>
         </div>
         <br/>

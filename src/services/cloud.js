@@ -43,12 +43,7 @@ function generalCreate(table, json) {
 module.exports = {
   parse: Parse,
   login: function(user, pass){
-    return new Promise((resolve, reject) => {
-      Parse.User.logIn(user, pass, {
-        success: user => resolve(user),
-        error: (user, error) => reject(error)
-      });
-    });
+    return Parse.User.logIn(user, pass);
   },
 
   currentUser: function(){
@@ -56,15 +51,11 @@ module.exports = {
   },
 
   logout: function(){
-    return new Promise((resolve, reject) => {
-      Parse.User.logOut().then(()=> resolve('done'));
-    });
+    return Parse.User.logOut();
   },
 
   isRegistered: function(user){
-    return new Promise((resolve, reject) => {
-      todayRegistered(user).then(count => resolve(count > 0));
-    });
+    return todayRegistered(user);
   },
 
   register: function(user){

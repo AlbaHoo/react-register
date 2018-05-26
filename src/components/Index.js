@@ -15,11 +15,11 @@ class Index extends Component {
   }
 
   checkingRegister = () => {
-    cloud.isRegistered(cloud.currentUser()).then(isRegistered=>{
-      console.log('[Index] check if registered today: ', isRegistered);
+    cloud.isRegistered(cloud.currentUser()).then(count=>{
+      console.log('[Index] check if registered today: ', count);
       this.setState({
         onFly: false,
-        registered: isRegistered
+        registered: count > 0
       });
     })
   }

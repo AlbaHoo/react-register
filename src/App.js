@@ -7,6 +7,7 @@ import FileList from './components/FileList';
 import EntryList from './components/EntryList';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
+import {Redirect} from 'react-router-dom';
 import {
     HashRouter as Router,
     Route

@@ -19,12 +19,12 @@ class FileList extends Component {
     cloud.getFileList().then(list => {
       var formatted_list = [];
       list.map((object, i) => {
-        formatted_list.push([
+        return formatted_list.push([
           object.get('name'),
           object.get('file')._url,
           moment(object.get('createdAt')).format("YY-MM-DD HH:mm"),
           object.id
-        ])
+        ]);
       });
       this.setState({
         onFly: true,
@@ -34,7 +34,8 @@ class FileList extends Component {
   }
 
   handleDelete = id => {
-    cloud.destroyObject('Files', id).then(() => this.refreshList());
+    if(window.confirm('确定？'))
+      cloud.destroyObject('Files', id).then(() => this.refreshList());
   }
 
   handleSearch = event => {
@@ -49,7 +50,7 @@ class FileList extends Component {
       <div className="container">
 
         <div className="input-group input-group-md">
-          <span className="input-group-addon" id="sizing-addon1">搜索🔍</span>
+          <span className="input-group-addon" id="sizing-addon1">搜索<span role="img" aria-label="search">🔍</span></span>
           <input type="text" className="form-control" placeholder="搜索文件名字" onChange={this.handleSearch}/>
         </div>
         <br/>

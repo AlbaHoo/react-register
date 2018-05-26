@@ -8,7 +8,7 @@ class Navs extends Component {
   render() {
     console.log('[Navs] isAuthenticationed: ', this.props.isAuthenticated);
     return (
-      <Navbar inverse collapseOnSelect>
+      <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
             <a href="#/index"><FormattedMessage id="title"/></a>

@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "./",
   "dependencies": {
+    "antd": "^3.5.3",
     "bootstrap": "^3.3.7",
     "moment": "^2.22.1",
     "parse": "^1.11.1",

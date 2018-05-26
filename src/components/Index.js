@@ -46,7 +46,7 @@ class Index extends Component {
       <div className="menu-list">
         <MenuButton icon="Z" label_id={label_id} action = {this.state.registered ? null : this.handleRegister}/>
         <MenuLink icon="p" label_id='file-index' url='#/files' />
-        <MenuLink icon="U" label_id='file-upload' url='#/upload' />
+        <MenuLink icon="z" label_id='entry-index' url='#/entries' />
       </div>
     );
   }

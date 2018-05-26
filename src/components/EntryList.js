@@ -4,11 +4,10 @@ import cloud from "../services/cloud.js";
 import MenuLink from './MenuLink.js';
 var moment = require('moment');
 
-class FileList extends Component {
+class EntryList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      onFly: false,
       list: [],
       filtered:[]
     };
@@ -16,31 +15,33 @@ class FileList extends Component {
   }
 
   refreshList = () => {
-    cloud.getFileList().then(list => {
+    cloud.getEntryList().then(list => {
       var formatted_list = [];
       list.map((object, i) => {
+        var positive = object.get('isCredit');
+        var number = object.get('number');
         formatted_list.push([
-          object.get('name'),
-          object.get('file')._url,
-          moment(object.get('createdAt')).format("YY-MM-DD HH:mm"),
+          moment(object.get('issuedAt')).format("YY-MM-DD"),
+          positive ? number : '',
+          positive ? '' : number,
+          object.get('note'),
           object.id
         ])
       });
       this.setState({
-        onFly: true,
         list: formatted_list
       });
     });
   }
 
   handleDelete = id => {
-    cloud.destroyObject('Files', id).then(() => this.refreshList());
+    cloud.destroyObject('Entries', id).then(() => this.refreshList());
   }
 
   handleSearch = event => {
     event.preventDefault();
     var str = event.target.value;
-    this.setState({filtered: this.state.list.filter(e => e[0].toLowerCase().indexOf(str) > -1)})
+    this.setState({filtered: this.state.list.filter(e => e[2].toLowerCase().indexOf(str) > -1)})
   }
 
   render() {
@@ -57,9 +58,10 @@ class FileList extends Component {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col"><FormattedMessage id="file.name"/></th>
               <th scope="col"><FormattedMessage id="created_at"/></th>
+              <th scope="col"><FormattedMessage id="entry.credit"/></th>
+              <th scope="col"><FormattedMessage id="entry.dibet"/></th>
+              <th scope="col" style={{ width: '20%' }}><FormattedMessage id="entry.note"/></th>
               <th scope="col"><FormattedMessage id="actions"/></th>
             </tr>
           </thead>
@@ -68,24 +70,25 @@ class FileList extends Component {
               list.map((object, i) => {
                 return  (
                   <tr key={i}>
-                    <th scope="row">{i+1}</th>
-                    <td>
-                      <a href={object[1]}>
-                        {object[0]}
-                      </a>
-                    </td>
+                    <td>{object[0]}</td>
+                    <td>{object[1]}</td>
                     <td>{object[2]}</td>
-                    <td><a className="btn btn-danger" onClick={() => this.handleDelete(object[3])}><FormattedMessage id="actions.delete"/></a></td>
+                    <td>{object[3]}</td>
+                    <td><a className="btn btn-danger" onClick={() => this.handleDelete(object[4])}><FormattedMessage id="actions.delete"/></a></td>
                   </tr>
                 )
               })
             }
-
+            <tr>
+              <td>合计</td>
+              <td>{list.reduce((sum, currentValue) => sum + (currentValue[1] ? currentValue[1] : 0), 0)}</td>
+              <td>{list.reduce((sum, currentValue) => sum + (currentValue[2] ? currentValue[2] : 0), 0)}</td>
+            </tr>
           </tbody>
         </table>
-        <MenuLink icon="U" label_id='file-upload' url='#/upload' />
+        <MenuLink icon="U" label_id='entry-upload' url='#/entry-upload' />
       </div>
     );
   }
 }
-export default FileList;
+export default EntryList;

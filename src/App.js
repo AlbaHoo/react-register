@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Login from './components/Login';
 import Index from './components/Index';
 import UploadFile from './components/UploadFile';
+import UploadEntry from './components/UploadEntry';
 import FileList from './components/FileList';
+import EntryList from './components/EntryList';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import {
@@ -49,6 +51,8 @@ class App extends Component {
               <ProtectedRoute path="/index" component={Index} />
               <ProtectedRoute path="/upload" component={UploadFile} />
               <ProtectedRoute path="/files" component={FileList} />
+              <ProtectedRoute path="/entries" component={EntryList} />
+              <ProtectedRoute path="/entry-upload" component={UploadEntry} />
             </div>
           </div>
         </Router>

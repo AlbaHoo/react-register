@@ -87,10 +87,15 @@ module.exports = {
       var parseFile = new Parse.File(file.name, file);
       return generalCreate('Files', {name: name, file: parseFile, user: user});
     }
-    else
-      return Promise.reject('Not login');
   },
 
+  uploadEntry(isCredit, number, note, formattedDate){
+    var user = Parse.User.current();
+    var issuedAt = moment(formattedDate).toDate();
+    if(user){
+      return generalCreate('Entries', {isCredit, number, note, issuedAt, user});
+    }
+  },
   getFileList() {
     var user = Parse.User.current();
     if(user){
@@ -98,10 +103,21 @@ module.exports = {
       query.equalTo('user', user);
       return query.find();
     }
-    else
-      return Promise.reject('Not login');
   },
 
+  getEntryList(orderField='issuedAt', orderType='asc') {
+    var user = Parse.User.current();
+    if(user){
+      var query = parseQuery("Entries");
+      query.equalTo('user', user);
+      if(orderType === 'asc') {
+        query.ascending(orderField);
+      }else{
+        query.descending(orderField);
+      }
+      return query.find();
+    }
+  },
   destroyObject(table, id) {
     var obj = new Parse.Object(table);
     obj.id = id;

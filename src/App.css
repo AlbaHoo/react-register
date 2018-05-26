@@ -2,6 +2,6 @@
 .page-container{
   padding-top: 20px;
 }
-.UploadEntry {
+.UploadEntry, .Login {
   max-width: 500px;
 }

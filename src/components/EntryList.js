@@ -2,14 +2,19 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import cloud from "../services/cloud.js";
 import MenuLink from './MenuLink.js';
-var moment = require('moment');
+import { DatePicker } from 'antd';
+import locale from 'antd/lib/date-picker/locale/zh_CN';
+import moment from 'moment';
+const RangePicker = DatePicker.RangePicker;
 
 class EntryList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       list: [],
-      filtered:[]
+      filtered:[],
+      column: 0,
+      ase: true
     };
     this.refreshList();
   }
@@ -21,7 +26,7 @@ class EntryList extends Component {
         var positive = object.get('isCredit');
         var number = object.get('number');
         formatted_list.push([
-          moment(object.get('issuedAt')).format("YY-MM-DD"),
+          moment(object.get('issuedAt')).format("YYYY-MM-DD"),
           positive ? number : '',
           positive ? '' : number,
           object.get('note'),
@@ -41,7 +46,17 @@ class EntryList extends Component {
   handleSearch = event => {
     event.preventDefault();
     var str = event.target.value;
-    this.setState({filtered: this.state.list.filter(e => e[2].toLowerCase().indexOf(str) > -1)})
+    this.setState({filtered: this.state.list.filter(e => e[3].toLowerCase().indexOf(str) > -1)})
+  }
+
+  handleDateFilter = (dates, formattedDates) => {
+    console.log(formattedDates);
+    const start = formattedDates[0];
+    const end = formattedDates[1];
+    this.setState({filtered: this.state.list.filter(e => {
+      console.log(moment(e[0]).isSameOrBefore(end) && moment(e[0]).isSameOrAfter(start));
+      return moment(e[0]).isSameOrBefore(end) && moment(e[0]).isSameOrAfter(start);
+    })})
   }
 
   render() {
@@ -52,6 +67,11 @@ class EntryList extends Component {
         <div className="input-group input-group-md">
           <span className="input-group-addon" id="sizing-addon1">搜索🔍</span>
           <input type="text" className="form-control" placeholder="搜索文件名字" onChange={this.handleSearch}/>
+        </div>
+        <br/>
+
+        <div className="input-group input-group-md">
+          <RangePicker locale={locale} onChange={this.handleDateFilter} />
         </div>
         <br/>
 

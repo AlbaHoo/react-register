@@ -14,16 +14,6 @@ function parseObject(table){
   return new ParseTable();
 }
 
-function todayRegistered(user) {
-  var start = moment().startOf('day').utc().toDate();
-  var end = moment().endOf('day').utc().toDate();
-  var query = parseQuery('Register');
-  query.greaterThanOrEqualTo('createdAt', start);
-  query.lessThanOrEqualTo('createdAt', end);
-  query.equalTo('user', user);
-  return query.count();
-}
-
 function generalCreate(table, json) {
   return new Promise((resolve, reject) => {
     var pt = parseObject(table);
@@ -40,6 +30,20 @@ function generalCreate(table, json) {
   });
 }
 
+function getList(model, orderField, orderType) {
+  var user = Parse.User.current();
+  if(user){
+    var query = parseQuery(model);
+    query.equalTo('user', user);
+    if(orderType === 'asc') {
+      query.ascending(orderField);
+    }else{
+      query.descending(orderField);
+    }
+    return query.find();
+  }
+}
+
 module.exports = {
   parse: Parse,
   login: function(user, pass){
@@ -54,30 +58,26 @@ module.exports = {
     return Parse.User.logOut();
   },
 
-  isRegistered: function(user){
-    return todayRegistered(user);
-  },
-
-  register: function(user){
-    return new Promise((resolve, reject) => {
-      var register = parseObject("Register");
-      register.set('user', user);
-      register.save(null, {
-        success: object => {
-          console.log('[cloud] register: ', object)
-          resolve(object);
-        },
-        error: (err, obj) => reject(err)
-      });
-    });
-  },
-
   uploadFile(name, file){
     var user = Parse.User.current();
     if(user){
-      var parseFile = new Parse.File(file.name, file);
+      // remove not word and not . in file name to avoid parseerror of filename
+      var parseFile = new Parse.File(file.name.replace(/[^\w|^\.]/g, ''), file);
       return generalCreate('Files', {name: name, file: parseFile, user: user});
     }
+  },
+
+  getFileList() {
+    var user = Parse.User.current();
+    if (user) {
+      var query = parseQuery("Files");
+      query.equalTo('user', user);
+      return query.find();
+    }
+  },
+
+  getEntryList(orderField='issuedAt', orderType='asc') {
+    return getList("Entries", orderField, orderType)
   },
 
   uploadEntry(isCredit, number, note, formattedDate){
@@ -87,28 +87,18 @@ module.exports = {
       return generalCreate('Entries', {isCredit, number, note, issuedAt, user});
     }
   },
-  getFileList() {
+
+  getBookList(orderField='name', orderType='asc') {
+    return getList("Books", orderField, orderType)
+  },
+
+  uploadBook(name, description) {
     var user = Parse.User.current();
-    if(user){
-      var query = parseQuery("Files");
-      query.equalTo('user', user);
-      return query.find();
+    if (user) {
+      return generalCreate('Books', {name, description, user});
     }
   },
 
-  getEntryList(orderField='issuedAt', orderType='asc') {
-    var user = Parse.User.current();
-    if(user){
-      var query = parseQuery("Entries");
-      query.equalTo('user', user);
-      if(orderType === 'asc') {
-        query.ascending(orderField);
-      }else{
-        query.descending(orderField);
-      }
-      return query.find();
-    }
-  },
   destroyObject(table, id) {
     var obj = new Parse.Object(table);
     obj.id = id;

@@ -11,13 +11,13 @@ class Navs extends Component {
       <Navbar collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#/index"><FormattedMessage id="title"/></a>
+            <a href="#/"><FormattedMessage id="title"/></a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1} href="#/index">
+            <NavItem eventKey={1} href="#/">
               <FormattedMessage id="menu1"/>
             </NavItem>
           </Nav>

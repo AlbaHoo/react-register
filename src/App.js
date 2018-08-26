@@ -49,7 +49,7 @@ class App extends Component {
             <Navs isAuthenticated={this.state.isAuthenticated} logout={this.logout}/>
             <div className="page-container">
               <Route path="/login" component={Login} />
-              <ProtectedRoute path="/index" component={Index} />
+              <ProtectedRoute exact path="/" component={Index} />
               <ProtectedRoute path="/upload" component={UploadFile} />
               <ProtectedRoute path="/files" component={FileList} />
               <ProtectedRoute path="/entries" component={EntryList} />

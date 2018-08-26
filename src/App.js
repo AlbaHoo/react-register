@@ -5,6 +5,8 @@ import UploadFile from './components/UploadFile';
 import UploadEntry from './components/UploadEntry';
 import FileList from './components/FileList';
 import EntryList from './components/EntryList';
+import Books from './components/Books';
+import NewBook from './components/NewBook';
 import Navs from './components/Navs.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import {Redirect} from 'react-router-dom';
@@ -53,6 +55,8 @@ class App extends Component {
               <ProtectedRoute path="/upload" component={UploadFile} />
               <ProtectedRoute path="/files" component={FileList} />
               <ProtectedRoute path="/entries" component={EntryList} />
+              <ProtectedRoute path="/books" component={Books} />
+              <ProtectedRoute path="/new-book" component={NewBook} />
               <ProtectedRoute path="/entry-upload" component={UploadEntry} />
             </div>
           </div>

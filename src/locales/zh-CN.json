@@ -21,6 +21,10 @@
   "entry.note": "备注",
   "entry.dibet": "支出(-)",
   "entry.credit": "收入(+)",
+  "books": "书籍",
+  "book.name": "书名",
+  "book.description": "简介",
+  "new-book": "写新书",
   "actions": "操作",
   "actions.delete": "删除",
   "created_at": "创建时间"

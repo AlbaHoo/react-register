@@ -9,8 +9,9 @@ class Index extends Component {
     var label_id;
     return (
       <div className="menu-list">
-        <MenuLink icon="p" label_id='file-index' url='#/files' />
+        <MenuLink icon="h" label_id='file-index' url='#/files' />
         <MenuLink icon="z" label_id='entry-index' url='#/entries' />
+        <MenuLink icon="o" label_id='books' url='#/books' />
       </div>
     );
   }
